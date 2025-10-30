@@ -1,12 +1,22 @@
 
-
 public class Main{
     public static void main(String[] args) {
         try{
-            bashCommand("adb shell input keyevent 27");
+            captureFace();
         }
         catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+    public static void captureFace(){
+        try{
+            bashCommand("adb shell am start -a android.media.action.STILL_IMAGE_CAMERA");
+
+            bashCommand("adb shell input keyevent 27");
+        }
+        catch(Exception e){
+
         }
     }
     
@@ -18,8 +28,6 @@ public class Main{
             Process p = pb.start();
 
             p.waitFor();
-
-            System.out.println("Git bash works??");
 
         }
         catch (Exception e) {
