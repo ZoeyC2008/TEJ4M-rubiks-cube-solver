@@ -5,12 +5,27 @@ public class Main{
     static final String IMAGE_FILE_PATH = "";
 
     public static void main(String[] args) {
-        try{
-            captureFace();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        
+        String[][] up = {{"W", "W", "W", "R"}, {"W", "W", "W", "R"}, {"W", "W", "W", "R"}, {"W", "W", "W", "R"}};
+
+        String[][] down = {{"Y", "Y", "Y", "O"}, {"Y", "Y", "Y", "O"}, {"Y", "Y", "Y", "O"}, {"Y", "Y", "Y", "O"}};
+
+        String[][] front = {{"R", "R", "R", "Y"}, {"R", "R", "R", "Y"}, {"R", "R", "R", "Y"}, {"R", "R", "R", "Y"}};
+
+        String[][] back = {{"W", "O", "O", "O"}, {"W", "O", "O", "O"}, {"W", "O", "O", "O"}, {"W", "O", "O", "O"}};
+
+        String[][] left = {{"G", "G", "G", "G"}, {"G", "G", "G", "G"}, {"G", "G", "G", "G"}, {"G", "G", "G", "G"}};
+
+        String[][] right = {{"B", "B", "B", "B"}, {"B", "B", "B", "B"}, {"B", "B", "B", "B"}, {"B", "B", "B", "B"}};
+
+        String[][][] test = 
+        {
+            up, down, front, back, left, right
+        };
+
+        Cube testCube  = new Cube(test);
+
+        System.out.println(testCube.toStringCubits());
     }
 
     public static void captureFace(){

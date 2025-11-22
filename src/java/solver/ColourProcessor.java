@@ -32,7 +32,18 @@ public class ColourProcessor{
 
     public void test(){
         cropImg();
+        String[][] top = findFaceColours();
+        
         String[][] front = findFaceColours();
+        String[][] left = findFaceColours();
+        String[][] back = findFaceColours();
+        String[][] right = findFaceColours();
+
+        String[][] bottom = findFaceColours();
+
+        String[][][] wholeCube = {top, bottom, front, back, left, right};
+
+        
 
         System.out.println(Arrays.deepToString(front));
     }
