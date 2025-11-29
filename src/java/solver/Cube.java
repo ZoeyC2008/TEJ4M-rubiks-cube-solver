@@ -5,6 +5,8 @@ public class Cube {
     
     String[][][] permutation = new String[6][size][size]; //config short for configuration
 
+    String solveStr = "";
+
     //Cube faces
     final int U = 0;
     final int D = 1;
@@ -56,18 +58,76 @@ public class Cube {
         permutation = p;
     }
 
+
+    public void solve(){
+        solveWhiteCenter();
+    }
+
+    private void solveWhiteCenter(){
+        Pos whiteCenter011 = new Pos(0, 1, 1);
+        Pos whiteCenter012 = new Pos(0, 1, 2);
+        Pos whiteCenter021 = new Pos(0, 2, 1);
+        Pos whiteCenter022 = new Pos(0, 2, 2);
+
+        ArrayList<Pos> foundCenters = new ArrayList<Pos>();
+        Pos whiteCenterOne = findCenterPos("W", foundCenters);
+
+        System.out.println("check one");
+
+        System.out.println(whiteCenterOne.toString());
+
+        if (whiteCenterOne.face == 0){
+            while (!(getPosColour(whiteCenter011).equals("W"))){
+                move_U();
+            }
+        }
+    }
+
+    private Pos findCenterPos(String colour, ArrayList<Pos> exclude){
+        for (int i = 0; i < permutation.length; i++){
+            for (int j = 1; j < permutation[i].length - 1; j++){
+                for (int k = 1; k < permutation[i][j].length - 1; k++){
+                    if (permutation[i][j][k].equals(colour)){
+                        Pos temp = new Pos(i, j, k);
+
+                        for (int a = 0; a < exclude.size(); a++){
+                            if (exclude.get(a).equals(temp)){
+                                break;
+                            }
+                        }
+
+                        return temp;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private String getPosColour(Pos pos){
+        return permutation[pos.face][pos.row][pos.col];
+    }
+
     public void move_U(){
         rotateU();
+
+        solveStr += "U, ";
     }
 
     public void move_Uw(){
         rotateUSlice();
         rotateU();
+
+        solveStr += "Uw, ";
     }
 
     public void move_u(){
         rotateUSlice();
+
+        solveStr += "u, ";
     }
+
 
     public void move_D(){
         flipZPrime();
@@ -77,6 +137,8 @@ public class Cube {
 
         flipZPrime();
         flipZPrime();
+
+        solveStr += "D, ";
     }
 
     public void move_Dw(){
@@ -88,6 +150,8 @@ public class Cube {
 
         flipZPrime();
         flipZPrime();
+        
+        solveStr += "Dw, ";
     }
 
     public void move_d(){
@@ -98,6 +162,8 @@ public class Cube {
 
         flipZPrime();
         flipZPrime();
+
+        solveStr += "d, ";
     }
 
 
@@ -109,6 +175,8 @@ public class Cube {
         for (int i = 0; i < 3; i++){
             flipZPrime();
         }
+
+        solveStr += "F, ";
     }
 
     public void move_Fw(){
@@ -120,6 +188,8 @@ public class Cube {
         for (int i = 0; i < 3; i++){
             flipZPrime();
         }
+
+        solveStr += "Fw, ";
     }
 
     public void move_f(){
@@ -130,6 +200,8 @@ public class Cube {
         for (int i = 0; i < 3; i++){
             flipZPrime();
         }
+
+        solveStr += "f, ";
     }
 
 
@@ -141,6 +213,8 @@ public class Cube {
         rotateU();
 
         flipZPrime();
+
+        solveStr += "B, ";
     }
 
     public void move_Bw(){
@@ -152,6 +226,8 @@ public class Cube {
         rotateU();
 
         flipZPrime();
+
+        solveStr += "Bw, ";
     }
 
     public void move_b(){
@@ -162,6 +238,8 @@ public class Cube {
         rotateUSlice();
 
         flipZPrime();
+
+        solveStr += "b, ";
     }
 
 
@@ -173,6 +251,8 @@ public class Cube {
         for (int i = 0; i < 3; i++){
             flipX();
         }
+
+        solveStr += "L, ";
     }
 
     public void move_Lw(){
@@ -184,6 +264,8 @@ public class Cube {
         for (int i = 0; i < 3; i++){
             flipX();
         }
+
+        solveStr += "Lw, ";
     }
 
     public void move_l(){
@@ -194,6 +276,8 @@ public class Cube {
         for (int i = 0; i < 3; i++){
             flipX();
         }
+
+        solveStr += "l, ";
     }
 
     
@@ -205,6 +289,8 @@ public class Cube {
         rotateU();
 
         flipX();
+
+        solveStr += "R, ";
     }
 
     public void move_Rw(){
@@ -216,6 +302,8 @@ public class Cube {
         rotateU();
 
         flipX();
+
+        solveStr += "Rw, ";
     }
 
     public void move_r(){
@@ -226,16 +314,23 @@ public class Cube {
         rotateU();
 
         flipX();
+
+        solveStr += "r, ";
     }
+
 
     public void move_x(){
         flipX();
+
+        solveStr += "x, ";
     }
 
     public void move_z(){
         for (int i = 0; i < 3; i++){
             flipZPrime();
         }  
+
+        solveStr += "z, ";
     }
 
     public void move_y(){
@@ -244,7 +339,11 @@ public class Cube {
         for (int i = 0; i < 3; i++){
             flipZPrime();
         }
+
+        solveStr += "y, ";
     }
+
+
 
     private void rotateU(){
         int[][][] cycle = {      

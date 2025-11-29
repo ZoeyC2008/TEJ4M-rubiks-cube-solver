@@ -6,13 +6,13 @@ public class Main{
 
     public static void main(String[] args) {
         
-        String[][] up = {{"W", "W", "W", "R"}, {"W", "W", "W", "R"}, {"W", "W", "W", "R"}, {"W", "W", "W", "R"}};
+        String[][] up = {{"W", "O", "W", "R"}, {"W", "O", "W", "R"}, {"W", "O", "W", "R"}, {"W", "O", "W", "R"}};
 
-        String[][] down = {{"Y", "Y", "Y", "O"}, {"Y", "Y", "Y", "O"}, {"Y", "Y", "Y", "O"}, {"Y", "Y", "Y", "O"}};
+        String[][] down = {{"Y", "R", "Y", "O"}, {"Y", "R", "Y", "O"}, {"Y", "R", "Y", "O"}, {"Y", "R", "Y", "O"}};
 
-        String[][] front = {{"R", "R", "R", "Y"}, {"R", "R", "R", "Y"}, {"R", "R", "R", "Y"}, {"R", "R", "R", "Y"}};
+        String[][] front = {{"R", "W", "R", "Y"}, {"R", "W", "R", "Y"}, {"R", "W", "R", "Y"}, {"R", "W", "R", "Y"}};
 
-        String[][] back = {{"W", "O", "O", "O"}, {"W", "O", "O", "O"}, {"W", "O", "O", "O"}, {"W", "O", "O", "O"}};
+        String[][] back = {{"W", "O", "Y", "O"}, {"W", "O", "Y", "O"}, {"W", "O", "Y", "O"}, {"W", "O", "Y", "O"}};
 
         String[][] left = {{"G", "G", "G", "G"}, {"G", "G", "G", "G"}, {"G", "G", "G", "G"}, {"G", "G", "G", "G"}};
 
@@ -29,14 +29,11 @@ public class Main{
 
         
         //System.out.println(testCube.toString());
-        
-        testCube.move_B();
+        testCube.solve();
 
-        testCube.move_l();
-
-        testCube.move_Fw();
-        
         System.out.println(testCube.toString());
+
+        System.out.println(testCube.solveStr);
 
 
     }
