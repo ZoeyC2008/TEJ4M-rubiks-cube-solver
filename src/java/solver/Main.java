@@ -25,7 +25,20 @@ public class Main{
 
         Cube testCube  = new Cube(test);
 
-        System.out.println(testCube.toStringCubits());
+        //System.out.println(testCube.toString());
+
+        
+        //System.out.println(testCube.toString());
+        
+        testCube.move_B();
+
+        testCube.move_l();
+
+        testCube.move_Fw();
+        
+        System.out.println(testCube.toString());
+
+
     }
 
     public static void captureFace(){

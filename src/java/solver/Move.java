@@ -1,3 +1,4 @@
+/* 
 public class Move {
     Cube cube;
 
@@ -93,3 +94,4 @@ public class Move {
         cube.cornerCubits[cycle[cycle.length-1]].orient(orient);
     }
 }
+*/
