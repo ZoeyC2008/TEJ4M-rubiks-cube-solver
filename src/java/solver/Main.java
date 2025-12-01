@@ -35,7 +35,6 @@ public class Main{
 
         System.out.println(testCube.solveStr);
 
-
     }
 
     public static void captureFace(){
