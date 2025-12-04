@@ -23,7 +23,7 @@ public class Main{
             up, down, front, back, left, right
         };
 
-        Cube testCube  = new Cube(test);
+        Cube testCube = new Cube(test);
 
         //System.out.println(testCube.toString());
 
@@ -35,6 +35,11 @@ public class Main{
 
         System.out.println(testCube.solveStr);
 
+        captureFace();
+
+        ArduinoUploader au = new ArduinoUploader("C:\\Users\\zixiu\\Projects\\TEJ4M-Rubiks-Cube-Solver\\src\\arduino\\stepperMotor");
+
+        au.runIno();
     }
 
     public static void captureFace(){
@@ -48,7 +53,7 @@ public class Main{
             //identify the photo
             String imgName = bashCommandString("adb shell 'ls -t /sdcard/DCIM/Camera/ | head -n 1'");
 
-            bashCommand("adb pull //sdcard/DCIM/Camera/" + imgName + " \"/C:/Users/zoeyz/Documents/projects/TEJ4M-Rubiks-Cube-Solver/src/images/\"");
+            bashCommand("adb pull //sdcard/DCIM/Camera/" + imgName + " \"/C:/Users/zixiu/projects/TEJ4M-Rubiks-Cube-Solver/src/images/\"");
 
             ColourProcessor cp = new ColourProcessor(imgName);
             cp.test();

@@ -69,8 +69,7 @@ public class Cube {
         Pos whiteCenter021 = new Pos(0, 2, 1);
         Pos whiteCenter022 = new Pos(0, 2, 2);
 
-        ArrayList<Pos> foundCenters = new ArrayList<Pos>();
-        Pos whiteCenterOne = findCenterPos("W", foundCenters);
+        Pos whiteCenterOne = findCenterPos("W");
 
         System.out.println("check one");
 
@@ -83,15 +82,47 @@ public class Cube {
         }
     }
 
-    private Pos findCenterPos(String colour, ArrayList<Pos> exclude){
+    private void whiteCenterOne(){
+        Pos whiteCenter011 = new Pos(0, 1, 1);
+
+                Pos whiteCenterOne = findCenterPos("W");
+
+        System.out.println("check one");
+
+        System.out.println(whiteCenterOne.toString());
+
+        if (whiteCenterOne.face == 0){
+            while (!(getPosColour(whiteCenter011).equals("W"))){
+                move_U();
+            }
+        }
+    }
+
+    private Pos findCenterPos(String colour){
         for (int i = 0; i < permutation.length; i++){
             for (int j = 1; j < permutation[i].length - 1; j++){
                 for (int k = 1; k < permutation[i][j].length - 1; k++){
                     if (permutation[i][j][k].equals(colour)){
                         Pos temp = new Pos(i, j, k);
 
-                        for (int a = 0; a < exclude.size(); a++){
-                            if (exclude.get(a).equals(temp)){
+                        return temp;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private Pos findCenterPos(String colour, Pos[] exclude){
+        for (int i = 0; i < permutation.length; i++){
+            for (int j = 1; j < permutation[i].length - 1; j++){
+                for (int k = 1; k < permutation[i][j].length - 1; k++){
+                    if (permutation[i][j][k].equals(colour)){
+                        Pos temp = new Pos(i, j, k);
+
+                        for (int a = 0; a < exclude.length; a++){
+                            if (exclude[a].equals(temp)){
                                 break;
                             }
                         }
