@@ -5,14 +5,28 @@ public class Main{
     static final String IMAGE_FILE_PATH = "";
 
     public static void main(String[] args) {
-        
-        String[][] up = {{"W", "O", "O", "R"}, {"W", "O", "O", "R"}, {"W", "O", "O", "R"}, {"W", "O", "O", "R"}};
+        /* 
+        String[][] up = {{"W", "O", "R", "R"}, {"W", "O", "R", "R"}, {"W", "O", "R", "R"}, {"W", "O", "R", "R"}};
 
-        String[][] down = {{"Y", "R", "R", "O"}, {"Y", "R", "R", "O"}, {"Y", "R", "R", "O"}, {"Y", "R", "R", "O"}};
+        String[][] down = {{"Y", "R", "O", "O"}, {"Y", "R", "O", "O"}, {"Y", "R", "O", "O"}, {"Y", "R", "O", "O"}};
 
-        String[][] front = {{"R", "W", "W", "Y"}, {"R", "W", "W", "Y"}, {"R", "W", "W", "Y"}, {"R", "W", "W", "Y"}};
+        String[][] front = {{"R", "W", "Y", "Y"}, {"B", "B", "B", "B"}, {"R", "W", "Y", "Y"}, {"R", "W", "Y", "Y"}};
 
-        String[][] back = {{"W", "Y", "Y", "O"}, {"W", "Y", "Y", "O"}, {"W", "Y", "Y", "O"}, {"W", "Y", "Y", "O"}};
+        String[][] back = {{"W", "W", "Y", "O"}, {"G", "G", "G", "G"}, {"W", "W", "Y", "O"}, {"W", "W", "Y", "O"}};
+
+        String[][] left = {{"G", "G", "G", "G"}, {"R", "W", "Y", "Y"}, {"G", "G", "G", "G"}, {"G", "G", "G", "G"}};
+
+        String[][] right = {{"B", "B", "B", "B"}, {"W", "W", "Y", "O"}, {"B", "B", "B", "B"}, {"B", "B", "B", "B"}};
+
+        */
+
+        String[][] up = {{"W", "W", "W", "W"}, {"W", "W", "W", "W"}, {"W", "W", "W", "W"}, {"W", "W", "W", "W"}};
+
+        String[][] down = {{"Y", "Y", "Y", "Y"}, {"Y", "Y", "Y", "Y"}, {"Y", "Y", "Y", "Y"}, {"Y", "Y", "Y", "Y"}};
+
+        String[][] front = {{"R", "R", "R", "R"}, {"R", "R", "R", "R"}, {"R", "R", "R", "R"}, {"R", "R", "R", "R"}};
+
+        String[][] back = {{"O", "O", "O", "O"}, {"O", "O", "O", "O"}, {"O", "O", "O", "O"}, {"O", "O", "O", "O"}};
 
         String[][] left = {{"G", "G", "G", "G"}, {"G", "G", "G", "G"}, {"G", "G", "G", "G"}, {"G", "G", "G", "G"}};
 
@@ -25,16 +39,30 @@ public class Main{
 
         Cube testCube = new Cube(test);
 
+        //testCube.move_uPrime();
         //System.out.println(testCube.toString());
 
+         
+        testCube.move_R();
+        testCube.move_r();
+        testCube.move_l();
+        testCube.move_u();
+        testCube.move_f();
+        testCube.move_r();
+        testCube.move_dPrime();
+        testCube.move_X();
+        testCube.move_B();
+        testCube.move_u();
         
-        //System.out.println(testCube.toString());
+        System.out.println(testCube.toString());
         testCube.solve();
 
+        System.out.println("\n\nPOST SOLVE:");
         System.out.println(testCube.toString());
 
         System.out.println(testCube.solveStr);
 
+        
         //captureFace();
 
         ArduinoUploader au = new ArduinoUploader("C:\\Users\\zixiu\\Projects\\TEJ4M-Rubiks-Cube-Solver\\src\\arduino\\stepperMotor");
