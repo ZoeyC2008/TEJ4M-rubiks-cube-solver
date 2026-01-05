@@ -13,6 +13,7 @@
 #define twoStepPin 7
 #define twoDirPin 8
 
+#define ledPin 12
 
 #define stepsPerRevolution 200
 
@@ -28,6 +29,7 @@ void setup() {
   pinMode(twoStepPin, OUTPUT);
   pinMode(twoDirPin, OUTPUT);
 
+  pinMode(ledPin, OUTPUT);
 
 
   digitalWrite(enPin, LOW);
@@ -48,11 +50,14 @@ void setup() {
   //twoUp();
 
   digitalWrite(sleepPin, LOW);
+
+
+  
 }
 
 void loop() {
   // Set the spinning direction clockwise:
-
+  digitalWrite(ledPin, HIGH);
 }
 
 void oneUp(){

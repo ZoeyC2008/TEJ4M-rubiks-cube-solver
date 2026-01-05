@@ -6,13 +6,13 @@ public class Main{
 
     public static void main(String[] args) {
         
-        String[][] up = {{"W", "O", "W", "R"}, {"W", "O", "W", "R"}, {"W", "O", "W", "R"}, {"W", "O", "W", "R"}};
+        String[][] up = {{"W", "O", "O", "R"}, {"W", "O", "O", "R"}, {"W", "O", "O", "R"}, {"W", "O", "O", "R"}};
 
-        String[][] down = {{"Y", "R", "Y", "O"}, {"Y", "R", "Y", "O"}, {"Y", "R", "Y", "O"}, {"Y", "R", "Y", "O"}};
+        String[][] down = {{"Y", "R", "R", "O"}, {"Y", "R", "R", "O"}, {"Y", "R", "R", "O"}, {"Y", "R", "R", "O"}};
 
-        String[][] front = {{"R", "W", "R", "Y"}, {"R", "W", "R", "Y"}, {"R", "W", "R", "Y"}, {"R", "W", "R", "Y"}};
+        String[][] front = {{"R", "W", "W", "Y"}, {"R", "W", "W", "Y"}, {"R", "W", "W", "Y"}, {"R", "W", "W", "Y"}};
 
-        String[][] back = {{"W", "O", "Y", "O"}, {"W", "O", "Y", "O"}, {"W", "O", "Y", "O"}, {"W", "O", "Y", "O"}};
+        String[][] back = {{"W", "Y", "Y", "O"}, {"W", "Y", "Y", "O"}, {"W", "Y", "Y", "O"}, {"W", "Y", "Y", "O"}};
 
         String[][] left = {{"G", "G", "G", "G"}, {"G", "G", "G", "G"}, {"G", "G", "G", "G"}, {"G", "G", "G", "G"}};
 
@@ -35,11 +35,11 @@ public class Main{
 
         System.out.println(testCube.solveStr);
 
-        captureFace();
+        //captureFace();
 
         ArduinoUploader au = new ArduinoUploader("C:\\Users\\zixiu\\Projects\\TEJ4M-Rubiks-Cube-Solver\\src\\arduino\\stepperMotor");
 
-        au.runIno();
+        //au.runIno();
     }
 
     public static void captureFace(){
@@ -49,6 +49,9 @@ public class Main{
 
             //take photo
             bashCommand("adb shell input keyevent 27");
+
+            //wait a moment
+            Thread.sleep(500);
 
             //identify the photo
             String imgName = bashCommandString("adb shell 'ls -t /sdcard/DCIM/Camera/ | head -n 1'");

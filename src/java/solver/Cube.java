@@ -64,40 +64,87 @@ public class Cube {
     }
 
     private void solveWhiteCenter(){
-        Pos whiteCenter011 = new Pos(0, 1, 1);
+        //Pos whiteCenter011 = new Pos(0, 1, 1);
         Pos whiteCenter012 = new Pos(0, 1, 2);
         Pos whiteCenter021 = new Pos(0, 2, 1);
         Pos whiteCenter022 = new Pos(0, 2, 2);
 
-        Pos whiteCenterOne = findCenterPos("W");
+        //Pos whiteCenterOne = findCenterPos("W");
 
-        System.out.println("check one");
-
-        System.out.println(whiteCenterOne.toString());
-
-        if (whiteCenterOne.face == 0){
-            while (!(getPosColour(whiteCenter011).equals("W"))){
-                move_U();
-            }
-        }
+        whiteCenterOne();
     }
 
     private void whiteCenterOne(){
         Pos whiteCenter011 = new Pos(0, 1, 1);
 
-                Pos whiteCenterOne = findCenterPos("W");
+        Pos tempWhite = findCenterPos("W");
 
-        System.out.println("check one");
 
-        System.out.println(whiteCenterOne.toString());
-
-        if (whiteCenterOne.face == 0){
+        if (tempWhite.face == 0){
             while (!(getPosColour(whiteCenter011).equals("W"))){
                 move_U();
             }
         }
+
+        if (getPosColour(whiteCenter011).equals("W")){
+            return;
+        }
+
+        int face = tempWhite.face;
+
+        switch (face) {
+            case 1:
+                for (int i = 0; i < 2; i++){
+                    move_l();
+                    move_r();
+                }
+                break;
+
+            case 2:
+                move_r();
+                move_l();
+                move_l();
+                move_l();
+                break;
+                
+
+            case 3:
+                move_r();
+                move_r();
+                move_r();
+                move_l();
+                break;
+
+            case 4:
+                move_f();
+                move_b();
+                move_b();
+                move_b();
+                break;
+
+            case 5:
+                move_f();
+                move_f();
+                move_f();
+                move_b();
+                break;
+
+            default:
+                throw new AssertionError();
+        }
+
+        whiteCenterOne();
     }
 
+    private void whiteCenterTwo(){
+        Pos whiteCenter011 = new Pos(0, 1, 1);
+        Pos whiteCenter012 = new Pos(0, 1, 2);
+
+        Pos[] exclude = {whiteCenter011};
+
+        Pos[] test
+    }
+    
     private Pos findCenterPos(String colour){
         for (int i = 0; i < permutation.length; i++){
             for (int j = 1; j < permutation[i].length - 1; j++){
