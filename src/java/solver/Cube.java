@@ -180,7 +180,31 @@ public class Cube {
         permutation = p;
     }
 
+    public Cube(){
+        String[][] up = {{"W", "W", "W", "W"}, {"W", "W", "W", "W"}, {"W", "W", "W", "W"}, {"W", "W", "W", "W"}};
+
+        String[][] down = {{"Y", "Y", "Y", "Y"}, {"Y", "Y", "Y", "Y"}, {"Y", "Y", "Y", "Y"}, {"Y", "Y", "Y", "Y"}};
+
+        String[][] front = {{"R", "R", "R", "R"}, {"R", "R", "R", "R"}, {"R", "R", "R", "R"}, {"R", "R", "R", "R"}};
+
+        String[][] back = {{"O", "O", "O", "O"}, {"O", "O", "O", "O"}, {"O", "O", "O", "O"}, {"O", "O", "O", "O"}};
+
+        String[][] left = {{"G", "G", "G", "G"}, {"G", "G", "G", "G"}, {"G", "G", "G", "G"}, {"G", "G", "G", "G"}};
+
+        String[][] right = {{"B", "B", "B", "B"}, {"B", "B", "B", "B"}, {"B", "B", "B", "B"}, {"B", "B", "B", "B"}};
+
+        String[][][] temp = 
+        {
+            up, down, front, back, left, right
+        };
+
+        permutation = temp;
+    }
+
     public void solve() {
+        solveStr = ""; //reset any moves solve string might have picked up
+        System.out.println("PRE-SOLVE:\n" +this.toString());
+
         // solving centers
         solveWhiteCenter();
         solveYellowCenter();
@@ -200,6 +224,9 @@ public class Cube {
         System.out.println("POST REDUCTION, BEFORE CFOP: \n" + this.toString());
 
         cfop();
+
+        System.out.println("POST-SOLVE:\n" +this.toString());
+
     }
 
     private void cfop() {
@@ -3003,6 +3030,16 @@ public class Cube {
         solveStr += "Uw, ";
     }
 
+    public void move_UwPrime(){
+        for (int i = 0; i < 3; i++){
+            rotateUSlice();
+            rotateU();
+        }
+
+        solveStr += "Uw', ";
+
+    }
+
     public void move_u() {
         rotateUSlice();
 
@@ -3055,6 +3092,21 @@ public class Cube {
         flipX();
 
         solveStr += "Dw, ";
+    }
+
+    public void move_DwPrime() {
+        for (int i = 0; i < 3; i++) {
+            flipX();
+            flipX();
+
+            rotateUSlice();
+            rotateU();
+
+            flipX();
+            flipX();
+        }
+
+        solveStr += "Dw', ";
     }
 
     public void move_d() {
@@ -3123,6 +3175,21 @@ public class Cube {
         solveStr += "Fw, ";
     }
 
+    public void move_FwPrime() {
+        for (int i = 0; i < 3; i++) {
+            flipX();
+
+            rotateUSlice();
+            rotateU();
+
+            for (int j = 0; j < 3; j++) {
+                flipX();
+            }
+        }
+
+        solveStr += "Fw', ";
+    }
+
     public void move_f() {
         flipX();
 
@@ -3189,6 +3256,21 @@ public class Cube {
         solveStr += "Bw, ";
     }
 
+    public void move_BwPrime() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                flipX();
+            }
+
+            rotateUSlice();
+            rotateU();
+
+            flipX();
+        }
+
+        solveStr += "Bw', ";
+    }
+
     public void move_b() {
         for (int i = 0; i < 3; i++) {
             flipX();
@@ -3253,6 +3335,21 @@ public class Cube {
         }
 
         solveStr += "Lw, ";
+    }
+
+    public void move_LwPrime() {
+        for (int i = 0; i < 3; i++) {
+            flipZ();
+
+            rotateUSlice();
+            rotateU();
+
+            for (int j = 0; j < 3; j++) {
+                flipZ();
+            }
+        }
+
+        solveStr += "Lw', ";
     }
 
     public void move_l() {
@@ -3387,6 +3484,130 @@ public class Cube {
         }
 
         solveStr += "Y, ";
+    }
+
+    public void move(String move){
+        switch (move) {
+            case "u":
+                this.move_u();
+                break;
+            case "u'":
+                this.move_uPrime();
+                break;
+            case "U":
+                this.move_U();
+                break;
+            case "U'":
+                this.move_UPrime();
+                break;
+            case "Uw":
+                this.move_Uw();
+                break;
+            case "Uw'":
+                this.move_UwPrime();
+                break;
+            case "d":
+                this.move_d();
+                break;
+            case "d'":
+                this.move_dPrime();
+                break;
+            case "D":
+                this.move_D();
+                break;
+            case "D'":
+                this.move_DPrime();
+                break;
+            case "Dw":
+                this.move_Dw();
+                break;
+            case "Dw'":
+                this.move_DwPrime();
+                break;
+            case "f":
+                this.move_f();
+                break;
+            case "f'":
+                this.move_fPrime();
+                break;
+            case "F":
+                this.move_F();
+                break;
+            case "F'":
+                this.move_FPrime();
+                break;
+            case "Fw":
+                this.move_Fw();
+                break;
+            case "Fw'":
+                this.move_FwPrime();
+                break;
+            case "b":
+                this.move_b();
+                break;
+            case "b'":
+                this.move_bPrime();
+                break;
+            case "B":
+                this.move_B();
+                break;
+            case "B'":
+                this.move_BPrime();
+                break;
+            case "Bw":
+                this.move_Bw();
+                break;
+            case "Bw'":
+                this.move_BwPrime();
+                break;
+            case "l":
+                this.move_l();
+                break;
+            case "l'":
+                this.move_lPrime();
+                break;
+            case "L":
+                this.move_L();
+                break;
+            case "L'":
+                this.move_LPrime();
+                break;
+            case "Lw":
+                this.move_Lw();
+                break;
+            case "Lw'":
+                this.move_LwPrime();
+                break;
+            case "r":
+                this.move_r();
+                break;
+            case "r'":
+                this.move_rPrime();
+                break;
+            case "R":
+                this.move_R();
+                break;
+            case "R'":
+                this.move_RPrime();
+                break;
+            case "Rw":
+                this.move_Rw();
+                break;
+            case "Rw'":
+                this.move_RwPrime();
+                break;
+            case "X":
+                this.move_X();
+                break;
+            case "Y":
+                this.move_Y();
+                break;
+            case "Z":
+                this.move_Z();
+                break;
+            default:
+                throw new AssertionError("not a valid move");
+        }
     }
 
     // base moves that that the others are derived from

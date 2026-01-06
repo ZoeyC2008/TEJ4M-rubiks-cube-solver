@@ -54,11 +54,11 @@ public class Main{
         testCube.move_B();
         testCube.move_u();
         
-        System.out.println(testCube.toString());
+        //System.out.println(testCube.toString());
         testCube.solve();
 
-        System.out.println("\n\nPOST SOLVE:");
-        System.out.println(testCube.toString());
+        //System.out.println("\n\nPOST SOLVE:");
+        //System.out.println(testCube.toString());
 
         System.out.println(testCube.solveStr);
 
@@ -68,6 +68,8 @@ public class Main{
         ArduinoUploader au = new ArduinoUploader("C:\\Users\\zixiu\\Projects\\TEJ4M-Rubiks-Cube-Solver\\src\\arduino\\stepperMotor");
 
         //au.runIno();
+        //GUI gui = new GUI();
+        //gui.launch();
     }
 
     public static void captureFace(){
