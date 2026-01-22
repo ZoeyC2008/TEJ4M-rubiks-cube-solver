@@ -5,17 +5,16 @@ import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 public class ColourProcessor{
-    Color WHITE = new Color(200, 200, 200);//W
-    Color YELLOW = new Color(200, 200, 0);//Y
-    Color RED = new Color(200, 0, 30);//R
-    Color ORANGE = new Color(200, 100, 0);//O
-    Color BLUE = new Color(30, 100, 180);//B
-    Color GREEN = new Color(30, 180, 30);//G
-
+    Color WHITE = new Color(150, 150, 150);//W
+    Color YELLOW = new Color(170, 150, 30);//Y
+    Color RED = new Color(170, 30, 40);//R
+    Color ORANGE = new Color(170, 90, 40);//O
+    Color BLUE = new Color(15, 100, 150);//B
+    Color GREEN = new Color(15, 150, 15);
     Color[] cubeColours = {WHITE, YELLOW, RED, ORANGE, BLUE, GREEN};
     String[] cubeLabels = {"W", "Y", "R", "O", "B", "G"};
 
-    int brightnessThreshold = 50;
+    int brightnessThreshold = 20;
 
     String imgPath;
     BufferedImage bimg;
@@ -34,18 +33,18 @@ public class ColourProcessor{
         cropImg();
         String[][] top = findFaceColours();
         
-        String[][] front = findFaceColours();
-        String[][] left = findFaceColours();
-        String[][] back = findFaceColours();
-        String[][] right = findFaceColours();
+        //String[][] front = findFaceColours();
+        //String[][] left = findFaceColours();
+        //String[][] back = findFaceColours();
+        //String[][] right = findFaceColours();
 
-        String[][] bottom = findFaceColours();
+        //String[][] bottom = findFaceColours();
 
-        String[][][] wholeCube = {top, bottom, front, back, left, right};
+        //String[][][] wholeCube = {top, bottom, front, back, left, right};
 
         
 
-        System.out.println(Arrays.deepToString(front));
+        System.out.println(Arrays.deepToString(top));
     }
 
     private void cropImg(){
@@ -202,8 +201,8 @@ public class ColourProcessor{
 
         System.out.println("Width: " + bimg.getWidth() + " Height: " + bimg.getHeight());
 
-        int cellHeight = bimg.getHeight() / cols; //y valus
-        int cellWidth = bimg.getWidth() / rows; //x valus
+        int cellHeight = bimg.getHeight() / cols - 1; //y valus
+        int cellWidth = bimg.getWidth() / rows - 1; //x valus
 
         System.out.println("Cell width: " + cellWidth + " Cell height: " + cellHeight);
 
@@ -235,8 +234,8 @@ public class ColourProcessor{
         long green = 0;
         long blue = 0;
         
-        for (int x = xPos; x <= xPos + cellWidth; x += 20){
-            for (int y = yPos; y <= yPos + cellHeight; y += 20){
+        for (int x = xPos; x <= xPos + cellWidth; x += 10){
+            for (int y = yPos; y <= yPos + cellHeight; y += 10){
                 int rgb = bimg.getRGB(x, y);
 
                 red += (rgb >> 16) & 0xFF;
@@ -261,6 +260,7 @@ public class ColourProcessor{
         int index = -1;
         int minValue = 1000;
 
+
         for (int i = 0; i < cubeColours.length; i++){
             int value = Math.abs(colour.getRed() - cubeColours[i].getRed()) + Math.abs(colour.getGreen() - cubeColours[i].getGreen()) + Math.abs(colour.getBlue() - cubeColours[i].getBlue());
 
@@ -269,6 +269,8 @@ public class ColourProcessor{
                 index = i;
             }
         }
+
+        System.out.println(cubeLabels[index] + colour.toString());
 
         return cubeLabels[index];
     }
