@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>4x4 Rubik's Cube Solver! (Totally not a CS project, I swear)</title>
+    <style>
+        body {
+            font-family: Garamond, serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        #cube-net {
+            display: grid;
+            grid-template-columns: repeat(4, auto);
+            grid-template-rows: repeat(3, auto);
+            grid-gap: 5px;
+        }
+
+        .face {
+            display: grid;
+            grid-template-columns: repeat(4, 50px); /* 4 stickers per row */
+            grid-gap: 2px;
+        }
+
+        /* Position faces manually in the net */
+        .face-0 { grid-column: 2 / 3; grid-row: 1 / 2; } /* top */
+        .face-1 { grid-column: 2 / 3; grid-row: 3 / 4; } /* bottom */
+        .face-4 { grid-column: 1 / 2; grid-row: 2 / 3; } /* left */
+        .face-2 { grid-column: 2 / 3; grid-row: 2 / 3; } /* front */
+        .face-5 { grid-column: 3 / 4; grid-row: 2 / 3; } /* right */
+        .face-3 { grid-column: 4 / 5; grid-row: 2 / 3; } /* back */
+
+        .sticker {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #555;
+            cursor: pointer;
+            user-select: none;
+        }
+        .sticker {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #555;
+            box-sizing: border-box;
+        }
+
+        #palette-header {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            margin-left: 300px;
+            margin-right: auto;
+        }
+
+        #palette {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            margin-left: 300px;
+            margin-right: auto;
+        }
+
+        .pick {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #444;
+            cursor: pointer;
+        }
+
+        .pick.selected {
+            border: 4px solid black;
+        }
+
+        #cube-control-buttons{
+            display: flex;
+        }
+
+        .button {
+            margin-top: 20px;
+            margin-left: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            width: 135px;
+            cursor: pointer;
+            transition-duration: 0.2s;
+            background-color: #f0f0f0;
+            border: 2px solid #222;
+        }
+
+        .reset:hover{
+            background-color: #0041c2;
+            color: #f0f0f0;
+        }
+
+        .solve:hover{
+            background-color: #03c04a;
+            color: #f0f0f0;
+        }
+
+        .moves:hover{
+            background-color: #81007f;
+            color: #f0f0f0;
+        }
+
+        .scramble:hover{
+            background-color: #b90e0a;
+            color: #f0f0f0;
+        }
+
+        .scan:hover{
+            background-color: #ed820e;
+            color: #f0f0f0;
+        }
+
+        .execute:hover{
+            background-color: #ffbf00;
+            color: #f0f0f0;
+        }
+
+        .faceBtn:hover{
+            background-color: #3e424b;
+            color: #f0f0f0;
+        }
+
+        #solutionBox {
+            margin-top: 15px;
+            background: #d1ffbd;
+            color: #222;
+            padding: 10px;
+            width: 700px;
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+
+        #scrambleBox{
+            margin-top: 15px;
+            background: #ff7f7f;
+            color: #222;
+            padding: 10px;
+            width: 700px;
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+
+        #moveInput{
+            width: 700px;
+            margin-top: 15px;
+            display: none;
+            white-space: pre-wrap;
+            min-height: 25px;
+        }
+
+        #scanControls{
+            display: none;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<h1>TEJ4M 4x4 Rubik's Cube Solver</h1>
+<h3>(Trust the process, even if there's 400 extraneous moves)</h3>
+
+<div id="cube-net"></div>
+
+<h3 id="palette-header">Palette (pick colour to repaint cube): </h3>
+
+<div id="palette">
+    <div class="pick" data-color="W" style="background:white"></div>
+    <div class="pick" data-color="Y" style="background:yellow"></div>
+    <div class="pick" data-color="R" style="background:red"></div>
+    <div class="pick" data-color="O" style="background:orange"></div>
+    <div class="pick" data-color="G" style="background:green"></div>
+    <div class="pick" data-color="B" style="background:blue"></div>
+</div>
+
+<div id="cube-control-buttons">
+    <button class = "button scramble" id="scrambleBtn">Scramble</button>
+    <button class = "button scan" id="scanBtn">Scan</button>
+    <button class = "button execute" id = "execBtn">Execute</button>
+    <button class = "button solve" id="solveBtn">Solve</button>
+    <button class = "button reset" id="resetBtn">Reset</button>
+    <button class = "button moves" id="applyMovesBtn">Apply Moves</button>
+</div>
+
+<div id="scanControls">
+    <button class="button faceBtn" data-face="0">Scan Top</button>
+    <button class="button faceBtn" data-face="1">Scan Bottom</button>
+    <button class="button faceBtn" data-face="2">Scan Front</button>
+    <button class="button faceBtn" data-face="3">Scan Back</button>
+    <button class="button faceBtn" data-face="4">Scan Left</button>
+    <button class="button faceBtn" data-face="5">Scan Right</button>
+</div>
+
+<input id="moveInput" placeholder="e.g. R, U, Rw', f" style="width:500px;">
+
+<pre id="scrambleBox"></pre>
+
+<pre id="solutionBox"></pre>
+
+<div class="spacer"></div>
+
+<script>
+    let selectedColor = "W";
+    let currentCube = null;
+    let isApplyMovesDisplayed = false;
+    let isScrambleDisplayed = false;
+
+    // Map the API color string to actual CSS colors
+    const colorMap = {
+        "W": "white",
+        "Y": "yellow",
+        "R": "red",
+        "O": "orange",
+        "G": "green",
+        "B": "blue"
+    };
+
+    async function fetchCubeData(){
+        try {
+            const res = await fetch("http://localhost:8080/api/cube/state");
+            currentCube = await res.json();
+            console.log("Cube from backend:", currentCube);
+            drawCube(currentCube);
+        } catch(err){
+            console.error("Failed to fetch cube:", err);
+        }
+    }
+
+    function drawCube(cube) {
+        const cubeContainer = document.getElementById("cube-net");
+        cubeContainer.innerHTML = "";
+        currentCube = cube;
+
+        cube.forEach((face, faceIndex) => {
+            const faceDiv = document.createElement("div");
+            faceDiv.className = `face face-${faceIndex}`;
+
+            face.forEach((row, r) => {
+                row.forEach((color, c) => {
+
+                    const sticker = document.createElement("div");
+                    sticker.className = "sticker";
+                    sticker.style.backgroundColor = colorMap[color] || "grey";
+
+                    sticker.addEventListener("click", () => {
+                        sticker.style.backgroundColor = colorMap[selectedColor];
+                        cube[faceIndex][r][c] = selectedColor;
+                    });
+
+                    faceDiv.appendChild(sticker);
+                });
+            });
+
+            cubeContainer.appendChild(faceDiv);
+        });
+
+
+    }
+    function initPalette() {
+        document.querySelectorAll(".pick").forEach(pick => {
+            pick.addEventListener("click", () => {
+                document.querySelectorAll(".pick").forEach(p => p.classList.remove("selected"));
+                pick.classList.add("selected");
+                selectedColor = pick.dataset.color;
+            });
+        });
+
+        document.querySelector('.pick[data-color="W"]').classList.add("selected");
+    }
+
+    async function initCube() {
+        await fetch("http://localhost:8080/api/cube/reset", { method: "POST" });
+        await fetchCubeData();
+    }
+
+    document.getElementById("solveBtn").addEventListener("click", async () => {
+        document.getElementById("solutionBox").style.display = "flex";
+        try {
+            const response = await fetch("http://localhost:8080/api/cube/solve", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(currentCube)
+            });
+
+            const result = await response.json();
+            document.getElementById("solutionBox").textContent = result.moves;
+        } catch (e) {
+            document.getElementById("solutionBox").textContent = "Failed to solve cube.";
+        }
+    });
+
+    function solvedCube() {
+        const colors = ["W","Y","R","O","G","B"];
+        return colors.map(c =>
+            Array.from({length:4}, () =>
+                Array.from({length:4}, () => c)
+            )
+        );
+    }
+
+    document.querySelectorAll(".faceBtn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+            const face = btn.dataset.face;
+
+            btn.textContent = "Scanning...";
+            await new Promise(r => setTimeout(r, 2000));
+
+            await fetch(`http://localhost:8080/api/cube/scan/${face}`, {
+                method: "POST"
+            });
+
+            btn.textContent = "Scan Face";
+
+            fetchCubeData();
+        });
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+        currentCube = solvedCube();
+        drawCube(currentCube);
+
+        document.getElementById("solutionBox").textContent = "";
+        document.getElementById("scrambleBox").textContent = "";
+        document.getElementById("solutionBox").style.display = "none";
+        document.getElementById("moveInput").style.display = "none";
+        document.getElementById("scanControls").style.display = "none";
+        document.getElementById("scrambleBox").style.display = "none";
+
+        isApplyMovesDisplayed = false;
+    });
+
+    document.getElementById("applyMovesBtn").addEventListener("click", async () => {
+        if(isApplyMovesDisplayed){
+            const moves = document.getElementById("moveInput").value;
+            if (!moves) return;
+
+            await fetch("http://localhost:8080/api/cube/applyMoves", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(moves)
+            });
+
+            fetchCubeData();  // redraw from backend state
+        } else {
+            document.getElementById("moveInput").style.display = "flex";
+            isApplyMovesDisplayed = true;
+        }
+
+    });
+
+    document.getElementById("scanBtn").addEventListener("click", async () => {
+        document.getElementById("scanControls").style.display = "flex";
+    })
+
+    //fetchCubeData();
+    initPalette();
+    initCube();
+</script>
+</body>
+</html>
