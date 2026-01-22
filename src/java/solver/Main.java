@@ -42,7 +42,7 @@ public class Main{
         //testCube.move_uPrime();
         //System.out.println(testCube.toString());
 
-         
+         /* 
         testCube.move_R();
         testCube.move_r();
         testCube.move_l();
@@ -53,21 +53,39 @@ public class Main{
         testCube.move_X();
         testCube.move_B();
         testCube.move_u();
+        */
+
+        testCube.applyMoves("U', L");
         
-        //System.out.println(testCube.toString());
+        System.out.println(testCube.toString());
+        
         testCube.solve();
-
-        //System.out.println("\n\nPOST SOLVE:");
-        //System.out.println(testCube.toString());
-
-        System.out.println(testCube.solveStr);
 
         
         //captureFace();
 
-        ArduinoUploader au = new ArduinoUploader("C:\\Users\\zixiu\\Projects\\TEJ4M-Rubiks-Cube-Solver\\src\\arduino\\stepperMotor");
+        ArduinoUploader auTurnFront = new ArduinoUploader("C:\\Users\\zixiu\\Projects\\TEJ4M-Rubiks-Cube-Solver\\src\\arduino\\frontFullTurn");
 
-        //au.runIno();
+        ArduinoUploader auBlank = new ArduinoUploader("C:\\Users\\zixiu\\Projects\\TEJ4M-Rubiks-Cube-Solver\\src\\arduino\\blank");
+
+        
+
+        try {
+            //captureFace();
+            //Thread.sleep(3000);
+            auTurnFront.runIno();
+            Thread.sleep(3000);
+            auBlank.runIno();
+            //Thread.sleep(3000);
+            //captureFace();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        
+        
+
         //GUI gui = new GUI();
         //gui.launch();
     }

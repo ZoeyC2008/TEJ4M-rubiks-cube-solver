@@ -2583,7 +2583,7 @@ public class Cube {
             return;
         }
 
-        if (face1 == 0 || face2 == 0) {
+        if (min == 1) {
             switch (max) {
                 case 2:
                     break;
@@ -2627,6 +2627,8 @@ public class Cube {
             return;
         }
 
+        System.out.println("On the faces: " + min + " " + max);
+
         if (min == 1) {
             switch (max) {
                 case 2:
@@ -2640,6 +2642,7 @@ public class Cube {
                     break;
                 case 5:
                     move_D();
+                    break;
                 default:
                     throw new AssertionError();
             }
@@ -3484,6 +3487,23 @@ public class Cube {
         }
 
         solveStr += "Y, ";
+    }
+
+    public void applyMoves(String moves){
+        moves = moves.replaceAll("\\s+", "");
+
+        while (moves.contains(",")){
+            int temp = moves.indexOf(",");
+
+            System.out.println(temp);
+
+            String move = moves.substring(0, temp);
+            moves = moves.substring(temp+1, moves.length());
+
+            move(move);
+        }
+
+        move(moves);
     }
 
     public void move(String move){
